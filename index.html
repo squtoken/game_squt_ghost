@@ -25,6 +25,7 @@
             <div id="unity-build-title">SqutGame</div>
         </div>
     </div>
+    <button id="connectMetaMaskButton">Connect MetaMask Wallet</button>
     <script>
         // MetaMask integration scripts
         async function loadWeb3() {
@@ -74,6 +75,9 @@
             }
         }
 
+        // Connect MetaMask on button click
+        document.getElementById('connectMetaMaskButton').addEventListener('click', loadWeb3);
+
         // Existing game loading scripts
         var container = document.querySelector("#unity-container");
         var canvas = document.querySelector("#unity-canvas");
@@ -84,11 +88,6 @@
         // Additional setup and loader script as previously defined
         // ...
         // Consider calling loadWeb3() at an appropriate moment, such as after the game loads or via a user interaction
-
-        document.body.appendChild(script);
-
-        // Example: To automatically attempt connection on game load, uncomment the following line:
-        // window.addEventListener('load', loadWeb3);
     </script>
 </body>
 </html>
