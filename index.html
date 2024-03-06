@@ -112,7 +112,7 @@
             };
 
             // Check for Metamask and request connection
-            if (typeof window.ethereum !== 'undefined') {
+            if (window.ethereum) {
                 window.ethereum.request({ method: 'eth_requestAccounts' })
                     .then((accounts) => {
                         console.log('Connected to Metamask:', accounts);
