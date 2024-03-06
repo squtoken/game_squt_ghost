@@ -21,13 +21,13 @@
       <div id="unity-webgl-logo"></div>
       <div id="unity-fullscreen-button"></div>
       <div id="unity-build-title">SqutGame</div>
-      <!-- BSC wallet buttons -->
-      <button id="auto-connect-button">Auto Connect BSC Wallet</button>
-      <button id="manual-connect-button">Manual Connect BSC Wallet</button>
+      <!-- MetaMask buttons -->
+      <button id="auto-connect-button">Auto Connect MetaMask</button>
+      <button id="manual-connect-button">Manual Connect MetaMask</button>
     </div>
   </div>
 
-  <!-- Web3 JavaScript library -->
+  <!-- MetaMask JavaScript library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.3.5/web3.min.js"></script>
   <script>
     var container = document.querySelector("#unity-container");
@@ -68,17 +68,7 @@
       showBanner: unityShowBanner,
     };
 
-    // Binance Smart Chain RPC endpoint
-    var bscRpcUrl = "https://bsc-dataseed.binance.org/";
-
-    if (/iPhone|iPad|iPod|Macintosh|MacIntel|MacPPC|Mac68K/i.test(navigator.userAgent)) {
-      // Auto-connect for iOS and Safari
-      window.onload = function() {
-        autoConnectBSCWallet();
-      };
-    }
-
-    if (/iPhone|iPad|iPod|Macintosh|MacIntel|MacPPC|Mac68K/i.test(navigator.userAgent)) {
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
       var meta = document.createElement('meta');
       meta.name = 'viewport';
       meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
@@ -102,6 +92,7 @@
               fullscreenButton.onclick = () => {
                 unityInstance.SetFullscreen(1);
               };
+              autoConnectMetaMask(unityInstance); // Call the function to automatically connect MetaMask
             }).catch((message) => {
               alert(message);
             });
@@ -109,38 +100,37 @@
 
     document.body.appendChild(script);
 
-    function autoConnectBSCWallet() {
+    function autoConnectMetaMask(unityInstance) {
       if (typeof window.ethereum !== 'undefined') {
         window.ethereum.request({ method: 'eth_requestAccounts' })
           .then(function(accounts) {
-            console.log("BSC wallet auto connection successful:", accounts);
+            unityInstance.SendMessage('game_squt_ghost', 'OnWalletConnected', accounts[0]);
           })
           .catch(function(error) {
-            console.error("BSC wallet auto connection failed:", error);
+            console.error("MetaMask request accounts failed:", error);
           });
       } else {
-        console.error("BSC wallet is not installed.");
-        // Provide instructions and link to download a compatible wallet app
-        alert("BSC wallet is not installed. Please download a compatible wallet app for Binance Smart Chain.");
-        window.location.href = "https://example.com/download-bsc-wallet";
+        console.error("MetaMask is not installed.");
       }
     }
+
+    // Add event listener to the auto-connect button
+    document.getElementById('auto-connect-button').addEventListener('click', function() {
+      autoConnectMetaMask();
+    });
 
     // Add event listener to the manual-connect button
     document.getElementById('manual-connect-button').addEventListener('click', function() {
       if (typeof window.ethereum !== 'undefined') {
         window.ethereum.enable()
           .then(function(accounts) {
-            console.log("BSC wallet manual connection successful:", accounts);
+            console.log("MetaMask manual connection successful:", accounts);
           })
           .catch(function(error) {
-            console.error("BSC wallet manual connection failed:", error);
+            console.error("MetaMask manual connection failed:", error);
           });
       } else {
-        console.error("BSC wallet is not installed.");
-        // Provide instructions and link to download a compatible wallet app
-        alert("BSC wallet is not installed. Please download a compatible wallet app for Binance Smart Chain.");
-        window.location.href = "https://example.com/download-bsc-wallet";
+        console.error("MetaMask is not installed.");
       }
     });
 
