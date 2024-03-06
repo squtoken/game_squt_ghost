@@ -1,0 +1,12 @@
+using UnityEngine;
+
+public class WalletManager : MonoBehaviour
+{
+    // Function to be called when the wallet is connected
+    public void OnWalletConnected(string walletAddress)
+    {
+        Debug.Log("Wallet connected. Address: " + walletAddress);
+        // Now you can use the walletAddress variable to perform actions related to the connected wallet.
+        // For example, you can store it for later use or display it to the user.
+    }
+}
