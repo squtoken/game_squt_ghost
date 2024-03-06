@@ -21,6 +21,8 @@
       <div id="unity-webgl-logo"></div>
       <div id="unity-fullscreen-button"></div>
       <div id="unity-build-title">SqutGame</div>
+      <!-- Add MetaMask button -->
+      <button id="metamask-button">Connect MetaMask</button>
     </div>
   </div>
 
@@ -98,29 +100,19 @@
     document.body.appendChild(script);
 
     function initializeMetaMask(unityInstance) {
-      if (typeof window.ethereum !== 'undefined') {
-        window.ethereum.request({
-          method: 'wallet_addEthereumChain',
-          params: [{
-            chainId: '0x38', // Chain ID for Binance Smart Chain (BSC)
-            chainName: 'Binance Smart Chain',
-            nativeCurrency: {
-              name: 'BNB',
-              symbol: 'bnb',
-              decimals: 18,
-            },
-            rpcUrls: ['https://bsc-dataseed.binance.org/'], // RPC endpoint for BSC
-            blockExplorerUrls: ['https://bscscan.com/'], // Block explorer URL for BSC
-          }]
-        }).then(function() {
-          console.log("Binance Smart Chain network added to MetaMask");
-          unityInstance.SendMessage('game_squt_ghost', 'OnWalletConnected', window.ethereum.selectedAddress);
-        }).catch(function(error) {
-          console.error("Error adding Binance Smart Chain network to MetaMask:", error);
-        });
-      } else {
-        console.error("MetaMask is not installed.");
-      }
+      document.getElementById('metamask-button').addEventListener('click', function() {
+        if (typeof window.ethereum !== 'undefined') {
+          window.ethereum.request({ method: 'eth_requestAccounts' })
+          .then(function(accounts) {
+            unityInstance.SendMessage('game_squt_ghost', 'OnWalletConnected', accounts[0]);
+          })
+          .catch(function(error) {
+            console.error("MetaMask request accounts failed:", error);
+          });
+        } else {
+          console.error("MetaMask is not installed.");
+        }
+      });
     }
 
   </script>
