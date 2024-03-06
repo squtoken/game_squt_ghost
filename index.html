@@ -21,6 +21,9 @@
       <div id="unity-webgl-logo"></div>
       <div id="unity-fullscreen-button"></div>
       <div id="unity-build-title">SqutGame</div>
+      <!-- MetaMask buttons -->
+      <button id="auto-connect-button">Auto Connect MetaMask</button>
+      <button id="manual-connect-button">Manual Connect MetaMask</button>
     </div>
   </div>
 
@@ -110,6 +113,26 @@
         console.error("MetaMask is not installed.");
       }
     }
+
+    // Add event listener to the auto-connect button
+    document.getElementById('auto-connect-button').addEventListener('click', function() {
+      autoConnectMetaMask();
+    });
+
+    // Add event listener to the manual-connect button
+    document.getElementById('manual-connect-button').addEventListener('click', function() {
+      if (typeof window.ethereum !== 'undefined') {
+        window.ethereum.enable()
+          .then(function(accounts) {
+            console.log("MetaMask manual connection successful:", accounts);
+          })
+          .catch(function(error) {
+            console.error("MetaMask manual connection failed:", error);
+          });
+      } else {
+        console.error("MetaMask is not installed.");
+      }
+    });
 
   </script>
 </body>
