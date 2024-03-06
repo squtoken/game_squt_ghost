@@ -160,16 +160,18 @@
                     displayNotification('MetaMask has been connected.');
                 } else {
                     // User is not connected, request connection
-                    window.ethereum.request({ method: 'eth_requestAccounts' })
-                        .then((accounts) => {
-                            // User approved connection
-                            // Perform necessary actions, like connecting to BNB chain
-                            displayNotification('MetaMask has been connected.');
-                        })
-                        .catch((error) => {
-                            // User denied connection
-                            console.error(error);
-                        });
+                    document.getElementById('connectMetaMaskButton').addEventListener('click', function() {
+                        window.ethereum.request({ method: 'eth_requestAccounts' })
+                            .then((accounts) => {
+                                // User approved connection
+                                // Perform necessary actions, like connecting to BNB chain
+                                displayNotification('MetaMask has been connected.');
+                            })
+                            .catch((error) => {
+                                // User denied connection
+                                console.error(error);
+                            });
+                    });
                 }
             } else {
                 // MetaMask is not installed
