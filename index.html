@@ -19,6 +19,19 @@
             border-radius: 5px;
             z-index: 9999;
         }
+        /* Style for manual connection button */
+        #connectMetaMaskButton {
+            position: fixed;
+            top: 70px;
+            left: 20px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 9999;
+        }
     </style>
 </head>
 <body>
@@ -37,6 +50,7 @@
         <div id="unity-build-title">SqutGame</div>
     </div>
 </div>
+<button id="connectMetaMaskButton">Connect MetaMask Wallet</button>
 <script>
     // Function to display notification
     function displayNotification(message) {
@@ -168,12 +182,6 @@
     };
 
     document.body.appendChild(script);
-
-    // Add event listener to the button to connect to MetaMask
-    document.getElementById('connectMetaMaskButton').addEventListener('click', function() {
-        // Redirect to MetaMask website for instructions
-        window.open('https://metamask.io/', '_blank');
-    });
 
 </script>
 </body>
